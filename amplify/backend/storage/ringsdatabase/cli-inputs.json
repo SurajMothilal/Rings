@@ -1,0 +1,10 @@
+{
+  "resourceName": "ringsdatabase",
+  "tableName": "account",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

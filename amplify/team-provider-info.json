@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-rings-dev-120003-authRole",
+      "UnauthRoleArn": "arn:aws:iam::269521708610:role/amplify-rings-dev-120003-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::269521708610:role/amplify-rings-dev-120003-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-rings-dev-120003-deployment",
+      "UnauthRoleName": "amplify-rings-dev-120003-unauthRole",
+      "StackName": "amplify-rings-dev-120003",
+      "StackId": "arn:aws:cloudformation:us-east-1:269521708610:stack/amplify-rings-dev-120003/f40be550-72ff-11ec-b367-0a529d9489a7",
+      "AmplifyAppId": "dx6obgci59pel"
+    },
+    "categories": {
+      "function": {
+        "ringsapilambda": {
+          "deploymentBucketName": "amplify-rings-dev-120003-deployment",
+          "s3Key": "amplify-builds/ringsapilambda-544a455842472f567941-build.zip"
+        }
+      }
+    }
+  }
+}

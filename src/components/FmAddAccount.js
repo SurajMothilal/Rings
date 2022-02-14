@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { API } from 'aws-amplify'
 import { useForm } from "react-hook-form";
 import {
     currencyCodes,
@@ -7,21 +8,43 @@ import {
     currentBalance,
     buttonNames,
     currency,
-    buttonTypes
+    buttonTypes,
+    accountType
 } from '../constants';
+import { apiConfig } from '../helpers/apiHelper';
 import CpButton from './CpButton';
 import CpFormField from './CpFormField';
 
-const FmAddAccount = ({ onCancel }) => {
-    const { control, handleSubmit, formState: { errors } } = useForm({
+const FmAddAccount = ({ onCancel, onSuccess }) => {
+    const { control, handleSubmit, formState } = useForm({
         defaultValues: {
             accountName: '',
-            initialAmount: '',
+            currentBalance: '',
             currency: currencyCodes.CANADIAN_DOLLAR
         }
     });
-    const onSubmit = data => console.log(data);
+    const { isSubmitting, isSubmitSuccessful } = formState;
+    const onSubmit = async data => {
+        const { apiName, accountPath } = apiConfig
+        const payload = {
+            body: {
+                type: accountType.ASSET,
+                name: data.accountName,
+                currency: data.currency,
+                amount: parseInt(data.currentBalance).toFixed(2),
+                user_id: 'userid',
+                institution_id: 'inst_id'
+            }
+        }
 
+        return await API.post(apiName, accountPath, payload)
+    };
+
+    useEffect(() => {
+        if(isSubmitSuccessful) {
+            onSuccess();
+        }
+    }, [isSubmitSuccessful])
     return (
         <View style={styles.container}>
             <CpFormField
@@ -33,7 +56,7 @@ const FmAddAccount = ({ onCancel }) => {
             />
             <CpFormField
                 control={control}
-                name='initialAmount'
+                name='currentBalance'
                 placeholder='0.00'
                 label={currentBalance}
                 required
@@ -49,11 +72,14 @@ const FmAddAccount = ({ onCancel }) => {
                 title={buttonNames.addAccountButton}
                 onPress={handleSubmit(onSubmit)}
                 buttonType={buttonTypes.PRIMARY}
+                loading={isSubmitting}
+                disabled={isSubmitting}
             />
              <CpButton
                 title={buttonNames.cancel}
                 onPress={onCancel}
                 buttonType={buttonTypes.SECONDARY}
+                disabled={isSubmitting}
             />
         </View>
     )

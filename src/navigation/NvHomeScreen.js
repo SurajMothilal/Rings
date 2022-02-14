@@ -2,7 +2,9 @@ import React from 'react';
 import CtHomeScreen from '../components/CtHomeScreen';
 
 const NvHomeScreen = ({ navigation }) => {
-  const onAddPress = () => navigation.navigate('AddAccount');
+  const onAddPress = (callback) => navigation.navigate('AddAccount', {
+    onBack: callback
+  });
   return (
     <CtHomeScreen onAddPress={onAddPress} />
   );
